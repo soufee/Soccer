@@ -4,7 +4,7 @@ import service.DataBase;
 
 import java.util.Random;
 
-public class Player {
+public class Player implements Comparable<Player> {
 	String name;
 	Positions position;
 	int attackQuality;
@@ -111,5 +111,14 @@ public class Player {
 				break;
 		}
 
+	}
+
+	@Override
+	public int compareTo(Player o) {
+		int t = (this.attackQuality + this.defQuality + this.midQuality)/3;
+		int e = (o.getAttackQuality() + o.getMidQuality() + o.getDefQuality())/3;
+		if (t>e) return 1;
+		if (t<e) return -1;
+		return 0;
 	}
 }

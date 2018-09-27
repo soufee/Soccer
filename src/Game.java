@@ -2,6 +2,10 @@ import model.Player;
 import model.Positions;
 import model.Team;
 import service.DataBase;
+import service.Match;
+import util.GameResults;
+
+import java.util.List;
 
 public class Game {
 	public static void main(String[] args) {
@@ -36,6 +40,24 @@ public class Game {
 		System.out.println("-----------");
 		DataBase.allTeams.forEach(System.out::println);
 		System.out.println("-----------");
-
+		Match match = new Match() {
+			@Override
+			public GameResults play(Team hostTeam, Team guestTeam) {
+				GameResults gameResults = new GameResults(hostTeam, guestTeam);
+				List<Player> hosts = hostTeam.getTeamList();
+				List<Player> guests = guestTeam.getTeamList();
+				int hostCount = 0;
+				int guestCount = 0;
+				for (int i = 0; i < 11; i++) {
+					if (hosts.get(i).compareTo(guests.get(i))==1) hostCount++;
+					else if (hosts.get(i).compareTo(guests.get(i))==-1) guestCount++;
+				}
+				gameResults.setCount(hostCount + ":"+guestCount);
+				gameResults.setWinner(hostCount>guestCount?hostTeam:(guestCount>hostCount?guestTeam:null));
+				System.out.println("Игра окончена. Счет "+gameResults.getCount());
+				return gameResults;
+			}
+		};
+		match.play(real, barsa);
 	}
 }
