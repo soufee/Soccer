@@ -4,6 +4,7 @@ import service.DataBase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Team {
 	private List<Player> teamList = new ArrayList<>();
@@ -22,31 +23,48 @@ public class Team {
 		this.teamList = teamList;
 	}
 
-	public void addPlayer (Player player){
+	public void addPlayer(Player player) {
 		teamList.add(player);
 	}
 
-	public void dismissPlayer(Player player){
-		if (teamList.contains(player))
+	public void dismissPlayer(Player player) {
+		if (teamList.contains(player)) {
 			teamList.remove(player);
-		else {
-			System.out.println("Игрок "+player +" не входит в команду");
+		} else {
+			System.out.println("Игрок " + player + " не входит в команду");
 		}
 	}
 
-	public void destroyTeam(){
+	public void destroyTeam() {
 		DataBase.allTeams.remove(this);
 	}
 
-	public synchronized void transfer(Player player, Team to){
+	public synchronized void transfer(Player player, Team to) {
 		teamList.remove(player);
 		to.addPlayer(player);
 	}
 
+	private List<Player> playersOnPosition(Positions position) {
+		return teamList.stream().filter(p -> (p.getPosition().equals(position))).collect(Collectors.toList());
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Override
 	public String toString() {
-		return "Team name " + name +
-			   "; teamList=" + teamList +
-			   '}';
+		StringBuilder sb = new StringBuilder();
+		sb.append("Team " + name + "\n");
+		for (Positions pos : Positions.values()) {
+			for (Player p : playersOnPosition(pos)) {
+				sb.append(" " + p.getPositionName() + " " + p.getName() + "\n");
+			}
+		}
+		return sb.toString();
 	}
 }
