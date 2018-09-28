@@ -1,8 +1,10 @@
 package model.dao;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "team", schema = "public", catalog = "soccer")
-public class TeamEntity {
+public class TeamEntity implements Serializable {
     private int id;
     private String name;
     private String city;
@@ -30,6 +32,7 @@ public class TeamEntity {
     }
 
     @Basic
+    @NaturalId
     @Column(name = "name")
     public String getName() {
         return name;

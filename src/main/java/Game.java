@@ -66,20 +66,11 @@ public class Game {
 //        match.play(real, barsa);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.beginTransaction();
-        LeagueEntity leagueEntity = new LeagueEntity();
-        leagueEntity.setCountryId(2);
-        leagueEntity.setTeamCapacity(20);
-        leagueEntity.setNameOfLeague("Prime league");
-        session.saveOrUpdate(leagueEntity);
-        int leagueId = leagueEntity.getId();
-        session.saveOrUpdate(TeamFactory.getTeamInstance("Chelsea", "London", "England", leagueId));
-        session.saveOrUpdate(TeamFactory.getTeamInstance("Liverpool FC", "Liverpool", "England", leagueId));
-        session.saveOrUpdate(TeamFactory.getTeamInstance("Tothenham", "London", "England", leagueId));
-        session.saveOrUpdate(TeamFactory.getTeamInstance("Arsenal", "London", "England", leagueId));
-        session.saveOrUpdate(TeamFactory.getTeamInstance("Manchester United", "Manchester", "England", leagueId));
-        session.saveOrUpdate(TeamFactory.getTeamInstance("Manchester city", "Manchester", "England", leagueId));
+        TeamEntity entity = session.byNaturalId(TeamEntity.class).using("name", "Real Madrid").load();
+ //       session.getTransaction().commit();
 
-        session.getTransaction().commit();
+        System.out.println(entity.getCountry() + " "+entity.getCity() + " from league "+session.load(LeagueEntity.class, entity.getLeagueId()).getNameOfLeague());
         session.close();
+        System.exit(0);
     }
 }
