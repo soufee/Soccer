@@ -1,16 +1,7 @@
-import model.Player;
-import model.Positions;
-import model.Team;
 import model.dao.LeagueEntity;
 import model.dao.TeamEntity;
 import org.hibernate.Session;
-import service.DataBase;
-import service.Match;
 import service.db.HibernateSessionFactory;
-import util.GameResults;
-import util.TeamFactory;
-
-import java.util.List;
 
 public class Game {
     public static void main(String[] args) {
