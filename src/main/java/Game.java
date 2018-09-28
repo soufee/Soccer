@@ -8,6 +8,7 @@ import service.DataBase;
 import service.Match;
 import service.db.HibernateSessionFactory;
 import util.GameResults;
+import util.TeamFactory;
 
 import java.util.List;
 
@@ -65,23 +66,19 @@ public class Game {
 //        match.play(real, barsa);
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.beginTransaction();
-//        TeamEntity real = new TeamEntity();
-//        real.setName("Real Madrid");
-//        real.setCity("Madrid");
-//        real.setCountry("Spain");
-        TeamEntity barsa = new TeamEntity();
-        barsa.setName("Barselona FC");
-        barsa.setCity("Barselona");
-        barsa.setCountry("Spain");
-//        LeagueEntity primera = new LeagueEntity();
-//        primera.setCountryId(1);
-//        primera.setTeamCapacity(20);
-//        primera.setNameOfLeague("Primera");
- //       session.saveOrUpdate(primera);
- //       real.setLeagueId(primera.getId());
-       barsa.setLeagueId(0);
-   //     session.saveOrUpdate(real);
-        session.saveOrUpdate(barsa);
+        LeagueEntity leagueEntity = new LeagueEntity();
+        leagueEntity.setCountryId(2);
+        leagueEntity.setTeamCapacity(20);
+        leagueEntity.setNameOfLeague("Prime league");
+        session.saveOrUpdate(leagueEntity);
+        int leagueId = leagueEntity.getId();
+        session.saveOrUpdate(TeamFactory.getTeamInstance("Chelsea", "London", "England", leagueId));
+        session.saveOrUpdate(TeamFactory.getTeamInstance("Liverpool FC", "Liverpool", "England", leagueId));
+        session.saveOrUpdate(TeamFactory.getTeamInstance("Tothenham", "London", "England", leagueId));
+        session.saveOrUpdate(TeamFactory.getTeamInstance("Arsenal", "London", "England", leagueId));
+        session.saveOrUpdate(TeamFactory.getTeamInstance("Manchester United", "Manchester", "England", leagueId));
+        session.saveOrUpdate(TeamFactory.getTeamInstance("Manchester city", "Manchester", "England", leagueId));
+
         session.getTransaction().commit();
         session.close();
     }

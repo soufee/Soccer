@@ -1,5 +1,7 @@
 package model.dao;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -16,7 +18,9 @@ public class TeamEntity {
     private Integer leagueId;
 
     @Id
-    @Column(name = "id", nullable = false, insertable = true, updatable = true)
+    @GenericGenerator(name="kaugen" , strategy="increment")
+    @GeneratedValue(generator="kaugen")
+    @Column(name = "id", nullable = false, insertable = true, updatable = false)
     public int getId() {
         return id;
     }
