@@ -16,6 +16,10 @@ import java.util.Map;
 public class Contract implements IContract {
     private Session session;
 
+    public Session getSession() {
+        return session;
+    }
+
     public Contract() {
         if (session == null) {
             session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -33,7 +37,7 @@ public class Contract implements IContract {
         if (user==null){
             System.out.println("Пользователь с идентификатором "+user_id + " не найден в системе");
             return null;
-        } else if (user != null && !user.hasRole("ROLE_KAPPER")){
+        } else if (!user.hasRole("ROLE_KAPPER")){
             System.out.println("У пользователя с иденитфикатором "+user_id + " нет роли Каппера. Его инициализация невозможна. ");
             return null;
         } else {
