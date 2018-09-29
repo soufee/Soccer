@@ -9,6 +9,7 @@
         <property name="connection.username">postgres</property>
         <property name="connection.password">postgres</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
+
         <mapping class="model.dao.HistoryEntity"/>
         <mapping class="model.dao.UsersEntity"/>
         <mapping class="model.KapperInfo"/>

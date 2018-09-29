@@ -14,14 +14,15 @@ import java.util.Objects;
 @Table(name = "kapper_info", schema = "public", catalog = "soccer")
 public class KapperInfo {
     private int id;
-    private Integer userId;
-    private BigInteger tokens;
+    private int userId;
+    private Double tokens;
     private Integer bets;
     private Integer successBets;
     private Integer failBets;
+    private Double blockedTokens;
 
-    public void setTokens(BigInteger tokens) {
-        this.tokens = tokens;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Id
@@ -39,7 +40,7 @@ public class KapperInfo {
     @Basic
     @NaturalId
     @Column(name = "user_id")
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
@@ -49,8 +50,12 @@ public class KapperInfo {
 
     @Basic
     @Column(name = "tokens")
-    public BigInteger getTokens() {
+    public Double getTokens() {
         return tokens;
+    }
+
+    public void setTokens(Double tokens) {
+        this.tokens = tokens;
     }
 
     @Basic
@@ -99,5 +104,15 @@ public class KapperInfo {
     @Override
     public int hashCode() {
         return Objects.hash(id, userId, tokens, bets, successBets, failBets);
+    }
+
+    @Basic
+    @Column(name = "blocked_tokens")
+    public Double getBlockedTokens() {
+        return blockedTokens;
+    }
+
+    public void setBlockedTokens(Double blockedTokens) {
+        this.blockedTokens = blockedTokens;
     }
 }

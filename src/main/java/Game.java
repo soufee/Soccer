@@ -12,18 +12,7 @@ public class Game {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
             session.beginTransaction();
             Contract contract = new Contract(session);
-            UsersEntity ashamaz = session.bySimpleNaturalId(UsersEntity.class).load("ashamaz");
-            UsersEntity ula = session.bySimpleNaturalId(UsersEntity.class).load("ulaula");
-            contract.initCapper(ashamaz.getUserId());
-
-            KapperInfo ashamazInfo = session.bySimpleNaturalId(KapperInfo.class).load(ashamaz.getUserId());
-            System.out.println(ashamazInfo==null?" пользователь не проинициализирован": ashamazInfo.getTokens());
-            System.out.println("--------------");
-            contract.initCapper(ula.getUserId());
-            KapperInfo ulaInfo = session.bySimpleNaturalId(KapperInfo.class).load(ula.getUserId());
-
-            System.out.println(ulaInfo==null?" пользователь не проинициализирован": ulaInfo.getTokens());
-
+            contract.getAllInfo();
         } finally {
             System.exit(0);
         }

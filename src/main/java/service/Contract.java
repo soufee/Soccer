@@ -4,10 +4,13 @@ import model.BetEvent;
 import model.EventResult;
 import model.KapperInfo;
 import model.dao.UsersEntity;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import service.db.HibernateSessionFactory;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,11 +37,11 @@ public class Contract implements IContract {
     public KapperInfo initCapper(int user_id) {
         UsersEntity user = session.load(UsersEntity.class, user_id);
         KapperInfo kapper = null;
-        if (user==null){
-            System.out.println("Пользователь с идентификатором "+user_id + " не найден в системе");
+        if (user == null) {
+            System.out.println("Пользователь с идентификатором " + user_id + " не найден в системе");
             return null;
-        } else if (!user.hasRole("ROLE_KAPPER")){
-            System.out.println("У пользователя с иденитфикатором "+user_id + " нет роли Каппера. Его инициализация невозможна. ");
+        } else if (!user.hasRole("ROLE_KAPPER")) {
+            System.out.println("У пользователя с иденитфикатором " + user_id + " нет роли Каппера. Его инициализация невозможна. ");
             return null;
         } else {
             session.beginTransaction();
@@ -53,7 +56,7 @@ public class Contract implements IContract {
             } else {
                 kapper = new KapperInfo();
                 kapper.setUserId(user_id);
-                kapper.setTokens(new BigInteger("500"));
+                kapper.setTokens(500d);
                 session.saveOrUpdate(kapper);
                 session.getTransaction().commit();
             }
@@ -62,27 +65,48 @@ public class Contract implements IContract {
     }
 
     @Override
-    public void betReputation(BetEvent event, int tokens) {
+    public KapperInfo getKapperInfo(int userId) {
+        KapperInfo kapper = session.bySimpleNaturalId(KapperInfo.class).load(userId);
+        return kapper;
+    }
+
+    @Override
+    public void transferTokens(int fromUserId, int toUserId, double amount) {
 
     }
 
     @Override
-    public KapperInfo getKapperInfo(int user_id) {
-        return null;
-    }
+    public void blockTokens(int userId, double amount) {
 
-    @Override
-    public EventResult getBettingResult(BetEvent event) {
-        return null;
     }
 
     @Override
     public Map<UsersEntity, Double> getBalance() {
-        return null;
+        Map<UsersEntity, Double> map = new HashMap<>();
+        Map<UsersEntity, KapperInfo> all = getAllInfo();
+        for (Map.Entry<UsersEntity, KapperInfo> e : all.entrySet()) {
+            map.put(e.getKey(), e.getValue().getTokens());
+        }
+        return map;
     }
 
     @Override
-    public Map<UsersEntity, KapperInfo> getRaiting() {
-        return null;
+    public Map<UsersEntity, KapperInfo> getAllInfo() {
+        Map<UsersEntity, KapperInfo> map = new HashMap<>();
+        String hql = "FROM UsersEntity where role = 'ROLE_KAPPER'";
+        Query query = session.createQuery(hql);
+        List results = query.list();
+        KapperInfo kapper;
+        for (Object o : results) {
+            hql = "FROM KapperInfo where userId = " + ((UsersEntity) o).getUserId();
+            query = session.createQuery(hql);
+            List kaps = query.list();
+            if (kaps.size() > 0) {
+                kapper = (KapperInfo) kaps.get(0);
+                map.put((UsersEntity) o, kapper);
+            }
+        }
+        return map;
     }
+
 }
