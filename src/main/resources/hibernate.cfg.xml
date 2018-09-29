@@ -6,16 +6,11 @@
     <session-factory>
         <property name="connection.url">jdbc:postgresql://localhost:5432/soccer</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">postgres</property>
-        <mapping class="model.dao.FootbalPlayerEntity"/>
-        <mapping class="model.dao.TeamEntity"/>
-        <mapping class="model.dao.CharacteristicsEntity"/>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
         <mapping class="model.dao.HistoryEntity"/>
-        <mapping class="model.dao.LeagueEntity"/>
-        <mapping class="model.dao.PotentionalEntity"/>
         <mapping class="model.dao.UsersEntity"/>
-        <mapping class="model.dao.CountriesEntity"/>
+        <mapping class="model.KapperInfo"/>
     </session-factory>
 </hibernate-configuration>
