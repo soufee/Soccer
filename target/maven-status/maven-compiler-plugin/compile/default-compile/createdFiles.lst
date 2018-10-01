@@ -1,0 +1,10 @@
+service\Contract.class
+service\IContract.class
+service\IEventFactory.class
+model\BetEvent.class
+model\dao\HistoryEntity.class
+model\KapperInfo.class
+Game.class
+model\dao\UsersEntity.class
+service\db\HibernateSessionFactory.class
+model\EventResult.class

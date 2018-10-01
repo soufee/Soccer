@@ -51,7 +51,7 @@ public class KapperInfo {
     @Basic
     @Column(name = "tokens")
     public Double getTokens() {
-        return tokens;
+        return tokens==null?0:tokens;
     }
 
     public void setTokens(Double tokens) {
@@ -61,7 +61,7 @@ public class KapperInfo {
     @Basic
     @Column(name = "bets")
     public Integer getBets() {
-        return bets;
+        return bets==null?0:bets;
     }
 
     public void setBets(Integer bets) {
@@ -71,7 +71,7 @@ public class KapperInfo {
     @Basic
     @Column(name = "success_bets")
     public Integer getSuccessBets() {
-        return successBets;
+        return successBets==null?0:successBets;
     }
 
     public void setSuccessBets(Integer successBets) {
@@ -81,7 +81,7 @@ public class KapperInfo {
     @Basic
     @Column(name = "fail_bets")
     public Integer getFailBets() {
-        return failBets;
+        return failBets==null?0:failBets;
     }
 
     public void setFailBets(Integer failBets) {
@@ -109,7 +109,7 @@ public class KapperInfo {
     @Basic
     @Column(name = "blocked_tokens")
     public Double getBlockedTokens() {
-        return blockedTokens;
+        return blockedTokens==null?0:blockedTokens;
     }
 
     public void setBlockedTokens(Double blockedTokens) {

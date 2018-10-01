@@ -1,14 +1,11 @@
 package service;
 
-import model.BetEvent;
-import model.EventResult;
 import model.KapperInfo;
 import model.dao.UsersEntity;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import service.db.HibernateSessionFactory;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,18 +63,53 @@ public class Contract implements IContract {
 
     @Override
     public KapperInfo getKapperInfo(int userId) {
-        KapperInfo kapper = session.bySimpleNaturalId(KapperInfo.class).load(userId);
-        return kapper;
+        return session.bySimpleNaturalId(KapperInfo.class).load(userId);
     }
 
     @Override
-    public void transferTokens(int fromUserId, int toUserId, double amount) {
-
+    public synchronized void transferTokens(int fromUserId, int toUserId, double amount) {
+        KapperInfo from = session.bySimpleNaturalId(KapperInfo.class).load(fromUserId);
+        KapperInfo to = session.bySimpleNaturalId(KapperInfo.class).load(toUserId);
+        double fromBalance = from.getTokens() - from.getBlockedTokens();
+        if (fromBalance >= amount) {
+            session.beginTransaction();
+            from.setTokens(fromBalance - amount);
+            to.setTokens(to.getTokens() + amount);
+            session.saveOrUpdate(from);
+            session.saveOrUpdate(to);
+            session.getTransaction().commit();
+        } else {
+            throw new IllegalArgumentException("Недостаточно средств на счете отправителя");
+        }
     }
 
     @Override
     public void blockTokens(int userId, double amount) {
+        KapperInfo from = session.bySimpleNaturalId(KapperInfo.class).load(userId);
+        double fromBalance = from.getTokens();
+        if (fromBalance >= amount) {
+            session.beginTransaction();
+            from.setBlockedTokens(from.getBlockedTokens() + amount);
+            session.saveOrUpdate(from);
+            session.getTransaction().commit();
+        } else {
+            throw new IllegalArgumentException("Недостаточно средств на счете для блокировки");
+        }
+    }
 
+
+    @Override
+    public void unblockAmount(int userId, double amount) {
+        KapperInfo from = session.bySimpleNaturalId(KapperInfo.class).load(userId);
+        double blockedTokens = from.getBlockedTokens();
+        if (blockedTokens >= amount) {
+            session.beginTransaction();
+            from.setBlockedTokens(blockedTokens - amount);
+            session.saveOrUpdate(from);
+            session.getTransaction().commit();
+        } else {
+            throw new IllegalArgumentException("Недостаточно средств на счете для блокировки");
+        }
     }
 
     @Override
@@ -108,5 +140,6 @@ public class Contract implements IContract {
         }
         return map;
     }
+
 
 }

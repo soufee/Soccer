@@ -17,5 +17,5 @@ public interface IContract {
     void blockTokens (int userId, double amount);
     Map<UsersEntity, Double> getBalance ();
     Map<UsersEntity, KapperInfo> getAllInfo();
-
+    void unblockAmount (int userId, double amount);
 }
