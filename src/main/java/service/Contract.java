@@ -121,7 +121,7 @@ public class Contract implements IContract {
         }
         return map;
     }
-
+//TODO реализовать получение баланса одного каппера
     @Override
     public Map<UsersEntity, KapperInfo> getAllInfo() {
         Map<UsersEntity, KapperInfo> map = new HashMap<>();

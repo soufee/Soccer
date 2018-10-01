@@ -9,6 +9,7 @@ import service.db.HibernateSessionFactory;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 
 /**
@@ -115,27 +116,42 @@ public class ContractTest {
 
     @Test
     public void c_transferTokens() throws Exception {
-        Assert.assertEquals(true, true);
+        contract.transferTokens(kapper1.getUserId(), kapper4.getUserId(), 250d);
+        Assert.assertEquals(kapper1.getTokens(), 250d, 0.001);
+        Assert.assertEquals(kapper4.getTokens(), 750d, 0.001);
+//TODO вставить проверку с превышающими суммами
     }
 
     @Test
     public void d_blockTokens() throws Exception {
-        Assert.assertEquals(true, true);
+        contract.blockTokens(kapper1.getUserId(), 50);
+        Assert.assertEquals(kapper1.getBlockedTokens(), 50, 0.001);
+        //TODO вставить проверку с превышающими суммами
     }
 
     @Test
     public void e_unblockAmount() throws Exception {
-        Assert.assertEquals(true, true);
+        contract.unblockAmount(kapper1.getUserId(), 5);
+        Assert.assertEquals(kapper1.getBlockedTokens(), 45, 0.001);
+//TODO вставить проверку с превышающими суммами
     }
 
     @Test
     public void f_getBalance() throws Exception {
-        Assert.assertEquals(true, true);
+        Map<UsersEntity, Double> map = contract.getBalance();
+        Assert.assertTrue(map.containsKey(entity1));
+        Assert.assertTrue(map.containsKey(entity4));
+        Assert.assertEquals(map.get(entity1), 250d, 0.001);
+        Assert.assertEquals(map.get(entity4), 750d, 0.001);
     }
 
     @Test
     public void g_getAllInfo() throws Exception {
-        Assert.assertEquals(true, true);
+        Map<UsersEntity, KapperInfo> map = contract.getAllInfo();
+        Assert.assertTrue(map.containsKey(entity1));
+        Assert.assertTrue(map.containsKey(entity4));
+        Assert.assertEquals(kapper1, map.get(entity1));
+        Assert.assertEquals(kapper4, map.get(entity4));
     }
 
     @Test
@@ -148,10 +164,10 @@ public class ContractTest {
         Assert.assertNull(en);
     }
 
-    private UsersEntity getUserEntity(int id){
+    private UsersEntity getUserEntity(int id) {
         try {
             return session.get(UsersEntity.class, id);
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
