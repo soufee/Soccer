@@ -141,5 +141,13 @@ public class Contract implements IContract {
         return map;
     }
 
+    public void deleteKapper(int userId) {
+        KapperInfo kapper = session.bySimpleNaturalId(KapperInfo.class).load(userId);
+        if (kapper != null) {
+            session.beginTransaction();
+            session.delete(kapper);
+            session.getTransaction().commit();
+        }
+    }
 
 }
