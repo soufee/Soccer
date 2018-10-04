@@ -79,8 +79,6 @@ public class ContractTest {
 
     @Test
     public void a_initCapper() throws Exception {
-        System.out.println("Начинается инициализация a_initCapper");
-        //     session.beginTransaction();
         kapper1 = contract.initCapper(entity1.getUserId());
         kapper4 = contract.initCapper(entity4.getUserId());
         kapper2 = contract.initCapper(entity2.getUserId());
@@ -90,14 +88,10 @@ public class ContractTest {
         if (kapper3 != null) session.saveOrUpdate(kapper3);
         if (kapper4 != null) session.saveOrUpdate(kapper4);
 
-        //   session.getTransaction().commit();
-        System.out.println("Заканчивается инициализация");
-
         Assert.assertNotNull(kapper1);
         Assert.assertNotNull(kapper4);
         Assert.assertEquals(kapper1.getTokens(), 500d, 0.001);
         Assert.assertEquals(kapper4.getTokens(), 500d, 0.001);
-
         Assert.assertNull(kapper2);
         Assert.assertNull(kapper3);
     }
@@ -111,7 +105,6 @@ public class ContractTest {
         Assert.assertEquals((int) k.getFailBets(), 0);
         Assert.assertEquals((int) k.getSuccessBets(), 0);
         Assert.assertEquals(k.getUserId(), 5);
-
     }
 
     @Test
@@ -119,21 +112,33 @@ public class ContractTest {
         contract.transferTokens(kapper1.getUserId(), kapper4.getUserId(), 250d);
         Assert.assertEquals(kapper1.getTokens(), 250d, 0.001);
         Assert.assertEquals(kapper4.getTokens(), 750d, 0.001);
-//TODO вставить проверку с превышающими суммами
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void c_transferTokensUpperSum() throws Exception {
+        contract.transferTokens(kapper1.getUserId(), kapper4.getUserId(), 501d);
     }
 
     @Test
     public void d_blockTokens() throws Exception {
         contract.blockTokens(kapper1.getUserId(), 50);
         Assert.assertEquals(kapper1.getBlockedTokens(), 50, 0.001);
-        //TODO вставить проверку с превышающими суммами
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void d_blockTokensUpperSum() throws Exception {
+        contract.blockTokens(kapper1.getUserId(), 600);
     }
 
     @Test
     public void e_unblockAmount() throws Exception {
         contract.unblockAmount(kapper1.getUserId(), 5);
         Assert.assertEquals(kapper1.getBlockedTokens(), 45, 0.001);
-//TODO вставить проверку с превышающими суммами
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void e_unblockAmountUpperSum() throws Exception {
+        contract.unblockAmount(kapper1.getUserId(), 1000);
     }
 
     @Test
