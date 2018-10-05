@@ -5,36 +5,39 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import ru.javastudy.springMVC.model.User;
-
 
 @Controller
 public class MainController {
 
-    /*First method on start application*/
-    /*Попадаем сюда на старте приложения (см. параметры аннтоции и настройки пути после деплоя) */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("userJSP", new User());
+        modelAndView.addObject("userJSP", "Это страница для всех");
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
-    /*как только на index.jsp подтвердится форма
-    <spring:form method="post"  modelAttribute="userJSP" action="check-user">,
-    то попадем вот сюда
-     */
-    @RequestMapping(value = "/check-user")
-    public ModelAndView checkUser(@ModelAttribute("userJSP") User user) {
+    @RequestMapping(value = "/kapper")
+    public ModelAndView kapper(@ModelAttribute("userJSP")  String s) {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("kapper");
+        modelAndView.addObject("userJSP", "Это страница каппера");
+        return modelAndView;
+    }
 
-        //имя представления, куда нужно будет перейти
-        modelAndView.setViewName("secondPage");
+    @RequestMapping(value = "/userpage")
+    public ModelAndView userpage(@ModelAttribute("userJSP") String s) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("userpage");
+        modelAndView.addObject("userJSP", "Это страница пользователя");
+        return modelAndView;
+    }
 
-        //записываем в атрибут userJSP (используется на странице *.jsp объект user
-        modelAndView.addObject("userJSP", user);
-
-        return modelAndView; //после уйдем на представление, указанное чуть выше, если оно будет найдено.
+    @RequestMapping(value = "/admin")
+    public ModelAndView admin(@ModelAttribute("userJSP")  String s) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin");
+        modelAndView.addObject("userJSP", "Это страница администратора");
+        return modelAndView;
     }
 }

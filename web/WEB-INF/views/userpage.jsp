@@ -2,22 +2,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
+
 <head>
-	<title>Main page</title>
+	<title>User page</title>
 </head>
 
 <body>
-<h1>Главная страница</h1>
+<h1>Страница пользователя</h1>
 <nav>
 	<ul>
-		<li><a>Главная</a></li>
+		<li><a href="/">Главная</a></li>
 		<li><a href="kapper">Каппер</a></li>
-		<li><a href="/userpage">Пользователь</a></li>
+		<li><a>Пользователь</a></li>
 		<li><a href="/admin">Админ</a></li>
 	</ul>
 </nav>
 
 <br>
+
 ${userJSP}
+
+
 </body>
+
 </html>
