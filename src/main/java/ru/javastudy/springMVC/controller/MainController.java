@@ -40,4 +40,28 @@ public class MainController {
         modelAndView.addObject("userJSP", "Это страница администратора");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/about")
+    public ModelAndView about(@ModelAttribute("userJSP")  String s) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin");
+        modelAndView.addObject("userJSP", "О проекте");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/contacts")
+    public ModelAndView contacts(@ModelAttribute("userJSP")  String s) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin");
+        modelAndView.addObject("userJSP", "Контактная информация");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/privatepage")
+    public ModelAndView privatepage(@ModelAttribute("userJSP")  String s) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin");
+        modelAndView.addObject("userJSP", "Личный кабинет");
+        return modelAndView;
+    }
 }

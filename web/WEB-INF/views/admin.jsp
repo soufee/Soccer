@@ -12,9 +12,12 @@
 <nav>
 	<ul>
 		<li><a href="/">Главная</a></li>
-		<li><a href="kapper">Каппер</a></li>
+		<li><a href="/kapper">Каппер</a></li>
 		<li><a href="/userpage">Пользователь</a></li>
 		<li><a>Админ</a></li>
+		<li><a href="/about">О проекте</a></li>
+		<li><a href="/contacts">Контакты</a></li>
+		<li><a href="/privatepage">Личный кабинет</a></li>
 	</ul>
 </nav>
 
