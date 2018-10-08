@@ -1,9 +1,7 @@
 package service;
 
-import model.BetEvent;
-import model.EventResult;
-import model.KapperInfo;
-import model.dao.UsersEntity;
+import model.dao.KapperInfo;
+import model.dao.Users;
 
 import java.util.Map;
 
@@ -15,7 +13,7 @@ public interface IContract {
     KapperInfo getKapperInfo(int userId);
     void transferTokens (int fromUserId, int toUserId, double amount);
     void blockTokens (int userId, double amount);
-    Map<UsersEntity, Double> getBalance ();
-    Map<UsersEntity, KapperInfo> getAllInfo();
+    Map<Users, Double> getBalance ();
+    Map<Users, KapperInfo> getAllInfo();
     void unblockAmount (int userId, double amount);
 }
