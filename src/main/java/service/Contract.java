@@ -1,7 +1,7 @@
 package service;
 
-import model.KapperInfo;
-import model.dao.UsersEntity;
+import model.dao.KapperInfo;
+import model.dao.Users;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import service.db.HibernateSessionFactory;
@@ -32,12 +32,12 @@ public class Contract implements IContract {
 
     @Override
     public KapperInfo initCapper(int user_id) {
-        UsersEntity user = session.load(UsersEntity.class, user_id);
+        Users user = session.load(Users.class, user_id);
         KapperInfo kapper = null;
         if (user == null) {
             System.out.println("Пользователь с идентификатором " + user_id + " не найден в системе");
             return null;
-        } else if (!user.hasRole("ROLE_KAPPER")) {
+        } else if (!user.hasRole(3)) {
             System.out.println("У пользователя с иденитфикатором " + user_id + " нет роли Каппера. Его инициализация невозможна. ");
             return null;
         } else {
@@ -113,29 +113,29 @@ public class Contract implements IContract {
     }
 
     @Override
-    public Map<UsersEntity, Double> getBalance() {
-        Map<UsersEntity, Double> map = new HashMap<>();
-        Map<UsersEntity, KapperInfo> all = getAllInfo();
-        for (Map.Entry<UsersEntity, KapperInfo> e : all.entrySet()) {
+    public Map<Users, Double> getBalance() {
+        Map<Users, Double> map = new HashMap<>();
+        Map<Users, KapperInfo> all = getAllInfo();
+        for (Map.Entry<Users, KapperInfo> e : all.entrySet()) {
             map.put(e.getKey(), e.getValue().getTokens());
         }
         return map;
     }
 //TODO реализовать получение баланса одного каппера
     @Override
-    public Map<UsersEntity, KapperInfo> getAllInfo() {
-        Map<UsersEntity, KapperInfo> map = new HashMap<>();
-        String hql = "FROM UsersEntity where role = 'ROLE_KAPPER'";
+    public Map<Users, KapperInfo> getAllInfo() {
+        Map<Users, KapperInfo> map = new HashMap<>();
+        String hql = "FROM Users where role_id = '3'";
         Query query = session.createQuery(hql);
         List results = query.list();
         KapperInfo kapper;
         for (Object o : results) {
-            hql = "FROM KapperInfo where userId = " + ((UsersEntity) o).getUserId();
+            hql = "FROM KapperInfo where userId = " + ((Users) o).getUserId();
             query = session.createQuery(hql);
             List kaps = query.list();
             if (kaps.size() > 0) {
                 kapper = (KapperInfo) kaps.get(0);
-                map.put((UsersEntity) o, kapper);
+                map.put((Users) o, kapper);
             }
         }
         return map;

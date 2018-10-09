@@ -1,7 +1,7 @@
 package service;
 
-import model.KapperInfo;
-import model.dao.UsersEntity;
+import model.dao.KapperInfo;
+import model.dao.Users;
 import org.hibernate.Session;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -18,10 +18,10 @@ import java.util.Map;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ContractTest {
 
-	private static UsersEntity entity1;
-	private static UsersEntity entity2;
-	private static UsersEntity entity3;
-	private static UsersEntity entity4;
+	private static Users entity1;
+	private static Users entity2;
+	private static Users entity3;
+	private static Users entity4;
 	private static KapperInfo kapper1;
 	private static KapperInfo kapper2;
 	private static KapperInfo kapper3;
@@ -34,14 +34,14 @@ public class ContractTest {
 		session = HibernateSessionFactory.getSessionFactory().openSession();
 		session.beginTransaction();
 		contract = new Contract(session);
-		entity1 = new UsersEntity();
-		entity2 = new UsersEntity();
-		entity3 = new UsersEntity();
-		entity4 = new UsersEntity();
+		entity1 = new Users();
+		entity2 = new Users();
+		entity3 = new Users();
+		entity4 = new Users();
 
 		entity1.setUserName("user1");
 		entity1.setName("user1");
-		entity1.setRole("ROLE_KAPPER");
+		entity1.setRole(3);
 		entity1.setPassword("user1");
 		entity1.setEmail("user1@mail.ru");
 		entity1.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -49,7 +49,7 @@ public class ContractTest {
 
 		entity2.setUserName("user2");
 		entity2.setName("user2");
-		entity2.setRole("ROLE_USER");
+		entity2.setRole(2);
 		entity2.setPassword("user2");
 		entity2.setEmail("user2@mail.ru");
 		entity2.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -57,7 +57,7 @@ public class ContractTest {
 
 		entity3.setUserName("user3");
 		entity3.setName("user3");
-		entity3.setRole("ROLE_ADMIN");
+		entity3.setRole(1);
 		entity3.setPassword("user3");
 		entity3.setEmail("user3@mail.ru");
 		entity3.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -65,7 +65,7 @@ public class ContractTest {
 
 		entity4.setUserName("user4");
 		entity4.setName("user4");
-		entity4.setRole("ROLE_KAPPER");
+		entity4.setRole(3);
 		entity4.setPassword("user4");
 		entity4.setEmail("user4@mail.ru");
 		entity4.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -150,7 +150,7 @@ public class ContractTest {
 
 	@Test
 	public void f_getBalance() throws Exception {
-		Map<UsersEntity, Double> map = contract.getBalance();
+		Map<Users, Double> map = contract.getBalance();
 		Assert.assertTrue(map.containsKey(entity1));
 		Assert.assertTrue(map.containsKey(entity4));
 		Assert.assertEquals(map.get(entity1), 250d, 0.001);
@@ -159,7 +159,7 @@ public class ContractTest {
 
 	@Test
 	public void g_getAllInfo() throws Exception {
-		Map<UsersEntity, KapperInfo> map = contract.getAllInfo();
+		Map<Users, KapperInfo> map = contract.getAllInfo();
 		Assert.assertTrue(map.containsKey(entity1));
 		Assert.assertTrue(map.containsKey(entity4));
 		Assert.assertEquals(kapper1, map.get(entity1));
@@ -172,13 +172,13 @@ public class ContractTest {
 		int id = entity2.getUserId();
 		session.delete(entity2);
 		session.getTransaction().commit();
-		UsersEntity en = getUserEntity(id);
+		Users en = getUserEntity(id);
 		Assert.assertNull(en);
 	}
 
-	private UsersEntity getUserEntity(int id) {
+	private Users getUserEntity(int id) {
 		try {
-			return session.get(UsersEntity.class, id);
+			return session.get(Users.class, id);
 		} catch (Exception e) {
 			return null;
 		}
