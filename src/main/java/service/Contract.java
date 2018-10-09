@@ -125,7 +125,7 @@ public class Contract implements IContract {
     @Override
     public Map<Users, KapperInfo> getAllInfo() {
         Map<Users, KapperInfo> map = new HashMap<>();
-        String hql = "FROM Users where roleId = 3";
+        String hql = "FROM Users where role_id = '3'";
         Query query = session.createQuery(hql);
         List results = query.list();
         KapperInfo kapper;
