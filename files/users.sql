@@ -8,7 +8,7 @@ create table users
 	name varchar(128),
 	email varchar(64),
 	date_of_birth timestamp,
-	role_id varchar(32) not null,
+	role_id integer not null,
 	date_of_registration timestamp,
 	isblocked boolean default false,
 	currency varchar(3),

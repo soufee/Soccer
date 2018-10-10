@@ -41,7 +41,7 @@ public class ContractTest {
 
 		entity1.setUserName("user1");
 		entity1.setName("user1");
-		entity1.setRole(3);
+		entity1.setRoleId(3);
 		entity1.setPassword("user1");
 		entity1.setEmail("user1@mail.ru");
 		entity1.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -49,7 +49,7 @@ public class ContractTest {
 
 		entity2.setUserName("user2");
 		entity2.setName("user2");
-		entity2.setRole(2);
+		entity2.setRoleId(2);
 		entity2.setPassword("user2");
 		entity2.setEmail("user2@mail.ru");
 		entity2.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -57,7 +57,7 @@ public class ContractTest {
 
 		entity3.setUserName("user3");
 		entity3.setName("user3");
-		entity3.setRole(1);
+		entity3.setRoleId(1);
 		entity3.setPassword("user3");
 		entity3.setEmail("user3@mail.ru");
 		entity3.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -65,7 +65,7 @@ public class ContractTest {
 
 		entity4.setUserName("user4");
 		entity4.setName("user4");
-		entity4.setRole(3);
+		entity4.setRoleId(3);
 		entity4.setPassword("user4");
 		entity4.setEmail("user4@mail.ru");
 		entity4.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
@@ -106,7 +106,7 @@ public class ContractTest {
 
 	@Test
 	public void b_getKapperInfo() throws Exception {
-		KapperInfo k = contract.getKapperInfo(kapper1.getUserId());
+		KapperInfo k = contract.getKapperInfo(kapper1.getUser().getUserId());
 		Assert.assertEquals(k.getTokens(), 500d, 0.001);
 		Assert.assertEquals(k.getBlockedTokens(), 0d, 0.001);
 		Assert.assertEquals((int) k.getBets(), 0);
@@ -115,37 +115,25 @@ public class ContractTest {
 	}
 
 	@Test
-	public void c_transferTokens() throws Exception {
-		contract.transferTokens(kapper1.getUserId(), kapper4.getUserId(), 250d);
-		Assert.assertEquals(kapper1.getTokens(), 250d, 0.001);
-		Assert.assertEquals(kapper4.getTokens(), 750d, 0.001);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void c_transferTokensUpperSum() throws Exception {
-		contract.transferTokens(kapper1.getUserId(), kapper4.getUserId(), 501d);
-	}
-
-	@Test
 	public void d_blockTokens() throws Exception {
-		contract.blockTokens(kapper1.getUserId(), 50);
+		contract.blockTokens(kapper1.getUser().getUserId(), 50);
 		Assert.assertEquals(kapper1.getBlockedTokens(), 50, 0.001);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void d_blockTokensUpperSum() throws Exception {
-		contract.blockTokens(kapper1.getUserId(), 600);
+		contract.blockTokens(kapper1.getUser().getUserId(), 600);
 	}
 
 	@Test
 	public void e_unblockAmount() throws Exception {
-		contract.unblockAmount(kapper1.getUserId(), 5);
+		contract.unblockAmount(kapper1.getUser().getUserId(), 5);
 		Assert.assertEquals(kapper1.getBlockedTokens(), 45, 0.001);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void e_unblockAmountUpperSum() throws Exception {
-		contract.unblockAmount(kapper1.getUserId(), 1000);
+		contract.unblockAmount(kapper1.getUser().getUserId(), 1000);
 	}
 
 	@Test

@@ -11,7 +11,6 @@ import java.util.Map;
 public interface IContract {
     KapperInfo initCapper(int userId);
     KapperInfo getKapperInfo(int userId);
-    void transferTokens (int fromUserId, int toUserId, double amount);
     void blockTokens (int userId, double amount);
     Map<Users, Double> getBalance ();
     Map<Users, KapperInfo> getAllInfo();

@@ -1,60 +1,34 @@
 package model.dao;
 
+import lombok.*;
+import model.IssueType;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Table(name = "stat")
 public class Stat {
-    private int id;
-    private String issueType;
-    private String content;
-
     @Id
-    @GenericGenerator(name="kaugen" , strategy="increment")
-    @GeneratedValue(generator="kaugen")
-    @Column(name = "id", nullable = false, insertable = true, updatable = false)
-    public int getId() {
-        return id;
-    }
+   @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, insertable = false, updatable = false)
+    private int id;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "issue_type")
-    public String getIssueType() {
-        return issueType;
-    }
+    private IssueType issueType;
 
-    public void setIssueType(String issueType) {
-        this.issueType = issueType;
-    }
-
-    @Basic
     @Column(name = "content")
-    public String getContent() {
-        return content;
-    }
+    private String content; //JSON формата {что за событие: количественное выражение}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+ @OneToOne(cascade = CascadeType.ALL)
+ @JoinColumn(name = "u_id")
+ @MapsId
+ private Users user;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Stat stat = (Stat) o;
-        return id == stat.id &&
-                Objects.equals(issueType, stat.issueType) &&
-                Objects.equals(content, stat.content);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, issueType, content);
-    }
 }

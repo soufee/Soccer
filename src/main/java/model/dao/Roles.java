@@ -1,50 +1,47 @@
 package model.dao;
 
+import lombok.*;
+import lombok.extern.log4j.Log4j;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
+import service.db.HibernateSessionFactory;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.io.Serializable;
 
+@Log4j
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Roles {
+@Table(name = "roles", schema = "public", catalog = "soccer")
+public class Roles implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "role_id", nullable = false, insertable = true, updatable = false)
     private int roleId;
+    @Column(name = "role_name")
     private String roleName;
 
-    @Id
-    @GenericGenerator(name="kaugen" , strategy="increment")
-    @GeneratedValue(generator="kaugen")
-    @Column(name = "role_id", nullable = false, insertable = true, updatable = false)
-    public int getRoleId() {
-        return roleId;
+    public enum RoleTypes {
+        ADMIN, KAPPER, USER
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public static Roles of(RoleTypes type) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        switch (type) {
+            case ADMIN:
+                return session.load(Roles.class, 1);
+            case USER:
+                return session.load(Roles.class, 2);
+            case KAPPER:
+                return session.load(Roles.class, 3);
+            default:
+                return null;
+        }
     }
 
-    @Basic
-    @NaturalId
-    @Column(name = "role_name")
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Roles roles = (Roles) o;
-        return roleId == roles.roleId &&
-                Objects.equals(roleName, roles.roleName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(roleId, roleName);
-    }
 }

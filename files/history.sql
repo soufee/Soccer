@@ -2,8 +2,8 @@ create table history
 (
 	id serial not null
 		constraint history_pkey
-			primary key,
-	player_id integer,
+		primary key,
+	u_id integer,
 	changes varchar
 )
 ;

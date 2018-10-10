@@ -1,61 +1,36 @@
 package model.dao;
 
+import lombok.*;
+import lombok.extern.log4j.Log4j;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Objects;
-
+@Log4j
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "personal_info", schema = "public", catalog = "soccer")
 public class PersonalInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, insertable = true, updatable = false)
     private int id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "u_id")
+    @MapsId
+    private Users user;
+    /**
+     * текстовое представление аватарки в Base64
+     * */
+    @Column(name = "photo")
     private String photo;
+
+    @Column(name = "about")
+
     private String about;
 
-    @Id
-    @GenericGenerator(name="kaugen" , strategy="increment")
-    @GeneratedValue(generator="kaugen")
-    @Column(name = "id", nullable = false, insertable = true, updatable = false)
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "photo")
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    @Basic
-    @Column(name = "about")
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PersonalInfo that = (PersonalInfo) o;
-        return id == that.id &&
-                Objects.equals(photo, that.photo) &&
-                Objects.equals(about, that.about);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, photo, about);
-    }
 }

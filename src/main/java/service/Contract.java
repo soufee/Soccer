@@ -52,7 +52,7 @@ public class Contract implements IContract {
                 System.out.println("Каппер с таким идентификатором уже прошел инициализацию");
             } else {
                 kapper = new KapperInfo();
-                kapper.setUserId(user_id);
+                kapper.setUser(user);
                 kapper.setTokens(500d);
                 session.saveOrUpdate(kapper);
                 session.getTransaction().commit();
@@ -66,22 +66,7 @@ public class Contract implements IContract {
         return session.bySimpleNaturalId(KapperInfo.class).load(userId);
     }
 
-    @Override
-    public synchronized void transferTokens(int fromUserId, int toUserId, double amount) {
-        KapperInfo from = session.bySimpleNaturalId(KapperInfo.class).load(fromUserId);
-        KapperInfo to = session.bySimpleNaturalId(KapperInfo.class).load(toUserId);
-        double fromBalance = from.getTokens() - from.getBlockedTokens();
-        if (fromBalance >= amount) {
-            session.beginTransaction();
-            from.setTokens(fromBalance - amount);
-            to.setTokens(to.getTokens() + amount);
-            session.saveOrUpdate(from);
-            session.saveOrUpdate(to);
-            session.getTransaction().commit();
-        } else {
-            throw new IllegalArgumentException("Недостаточно средств на счете отправителя");
-        }
-    }
+
 
     @Override
     public void blockTokens(int userId, double amount) {
@@ -130,7 +115,7 @@ public class Contract implements IContract {
         List results = query.list();
         KapperInfo kapper;
         for (Object o : results) {
-            hql = "FROM KapperInfo where userId = " + ((Users) o).getUserId();
+            hql = "FROM KapperInfo where u_id = " + ((Users) o).getUserId();
             query = session.createQuery(hql);
             List kaps = query.list();
             if (kaps.size() > 0) {
