@@ -2,6 +2,8 @@ package model.dao;
 
 import org.hibernate.annotations.NaturalId;
 import lombok.*;
+import ru.logic.raitings.IRaiting;
+
 import javax.persistence.*;
 
 /**
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "kapper_info", schema = "public", catalog = "soccer")
-public class KapperInfo {
+public class KapperInfo implements IRaiting {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -45,4 +47,10 @@ public class KapperInfo {
     @NaturalId
     private Users user;
 
+    @Override
+    public int compareTo(KapperInfo o) {
+        if (this.getTokens()<o.getTokens()) return 1;
+        else if (this.getTokens()>o.getTokens()) return -1;
+        else return 0;
+    }
 }

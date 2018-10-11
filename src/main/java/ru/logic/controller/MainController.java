@@ -1,4 +1,4 @@
-package ru.javastudy.springMVC.controller;
+package ru.logic.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
