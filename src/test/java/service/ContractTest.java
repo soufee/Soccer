@@ -1,5 +1,6 @@
 package service;
 
+import lombok.extern.log4j.Log4j;
 import model.dao.KapperInfo;
 import model.dao.Users;
 import org.hibernate.Session;
@@ -15,6 +16,7 @@ import java.util.Map;
 /**
  * Created by Shoma on 30.09.2018.
  */
+@Log4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ContractTest {
 
