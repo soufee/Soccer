@@ -1,29 +1,15 @@
-create table users
+create table stat
 (
-	user_id serial not null
-		constraint users_pkey
-			primary key,
-	user_name varchar(128),
-	password varchar(256) not null,
-	name varchar(128),
-	email varchar(64),
-	date_of_birth timestamp,
-	role_id integer,
-	date_of_registration timestamp,
-	isblocked boolean default false,
-	currency varchar(3),
-	lang varchar(16)
+	id serial not null
+		constraint stat_pkey
+primary key,
+	u_id integer
+		constraint stat_users_user_id_fk
+			references users,
+	issue_type varchar(64),
+	content varchar
 )
 ;
-
-alter table users owner to postgres
-;
-
-create unique index users_user_id_uindex
-	on users (user_id)
-;
-
-create unique index users_user_name_uindex
-	on users (user_name)
-;
-
+ alter table stat owner to postgres
+create unique index stat_id_uindex
+	on stat (id);
