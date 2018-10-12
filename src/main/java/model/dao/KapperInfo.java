@@ -5,6 +5,7 @@ import lombok.*;
 import ru.logic.raitings.IRaiting;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Shoma on 29.09.2018.
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "kapper_info", schema = "public", catalog = "soccer")
-public class KapperInfo implements IRaiting {
+public class KapperInfo implements IRaiting, Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

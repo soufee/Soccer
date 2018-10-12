@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -15,14 +16,11 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "history", schema = "public", catalog = "soccer")
-public class History {
+public class History implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, insertable = true, updatable = false)
     private int id;
-
-//    @Column(name = "u_id")
-//    private int uId;
 
     @Column(name = "changes")
     private String changes;
