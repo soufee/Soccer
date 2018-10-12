@@ -1,13 +1,9 @@
 package model.dao;
 
 import lombok.*;
-import model.IssueType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Data
 @Builder
