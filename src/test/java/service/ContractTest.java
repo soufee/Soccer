@@ -34,8 +34,6 @@ public class ContractTest {
 	@BeforeClass
 	public static void initData() {
 		session = HibernateSessionFactory.getSession();
-
-		session.beginTransaction();
 		contract = new Contract(session);
 		entity1 = new Users();
 		entity2 = new Users();
@@ -73,6 +71,7 @@ public class ContractTest {
 		entity4.setEmail("user4@mail.ru");
 		entity4.setDateOfRegistration(new Timestamp(System.currentTimeMillis()));
 		entity4.setDateOfBirth(Timestamp.valueOf(LocalDateTime.of(1985, 4, 29, 1, 45)));
+		session.beginTransaction();
 		session.saveOrUpdate(entity1);
 		session.saveOrUpdate(entity2);
 		session.saveOrUpdate(entity3);
@@ -82,10 +81,10 @@ public class ContractTest {
 
 	@Test
 	public void a_initCapper() throws Exception {
-		kapper1 = contract.initCapper(entity1.getUserId());
-		kapper4 = contract.initCapper(entity4.getUserId());
-		kapper2 = contract.initCapper(entity2.getUserId());
-		kapper3 = contract.initCapper(entity3.getUserId());
+		kapper1 = contract.initCapper(entity1);
+		kapper4 = contract.initCapper(entity4);
+		kapper2 = contract.initCapper(entity2);
+		kapper3 = contract.initCapper(entity3);
 		if (kapper1 != null) {
 			session.saveOrUpdate(kapper1);
 		}
@@ -109,7 +108,7 @@ public class ContractTest {
 
 	@Test
 	public void b_getKapperInfo() throws Exception {
-		KapperInfo k = contract.getKapperInfo(kapper1.getUser().getUserId());
+		KapperInfo k = contract.getKapperInfo(kapper1.getUser());
 		Assert.assertEquals(k.getTokens(), 500d, 0.001);
 		Assert.assertEquals(k.getBlockedTokens(), 0d, 0.001);
 		Assert.assertEquals((int) k.getBets(), 0);
@@ -119,24 +118,24 @@ public class ContractTest {
 
 	@Test
 	public void d_blockTokens() throws Exception {
-		contract.blockTokens(kapper1.getUser().getUserId(), 50);
+		contract.blockTokens(kapper1.getUser(), 50);
 		Assert.assertEquals(kapper1.getBlockedTokens(), 50, 0.001);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void d_blockTokensUpperSum() throws Exception {
-		contract.blockTokens(kapper1.getUser().getUserId(), 600);
+		contract.blockTokens(kapper1.getUser(), 600);
 	}
 
 	@Test
 	public void e_unblockAmount() throws Exception {
-		contract.unblockAmount(kapper1.getUser().getUserId(), 5);
+		contract.unblockAmount(kapper1.getUser(), 5);
 		Assert.assertEquals(kapper1.getBlockedTokens(), 45, 0.001);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void e_unblockAmountUpperSum() throws Exception {
-		contract.unblockAmount(kapper1.getUser().getUserId(), 1000);
+		contract.unblockAmount(kapper1.getUser(), 1000);
 	}
 
 	@Test
@@ -144,8 +143,8 @@ public class ContractTest {
 		Map<Users, Double> map = contract.getBalance();
 		Assert.assertTrue(map.containsKey(entity1));
 		Assert.assertTrue(map.containsKey(entity4));
-		Assert.assertEquals(map.get(entity1), 250d, 0.001);
-		Assert.assertEquals(map.get(entity4), 750d, 0.001);
+		Assert.assertEquals(map.get(entity1), 500d, 0.001);
+		Assert.assertEquals(map.get(entity4), 500d, 0.001);
 	}
 
 	@Test
@@ -160,10 +159,9 @@ public class ContractTest {
 	@Test
 	public void h_deleteKapper() throws Exception {
 		session.beginTransaction();
-		int id = entity2.getUserId();
 		session.delete(entity2);
 		session.getTransaction().commit();
-		Users en = getUserEntity(id);
+		Users en = getUserEntity(entity2.getUserId());
 		Assert.assertNull(en);
 	}
 
@@ -177,12 +175,11 @@ public class ContractTest {
 
 	@AfterClass
 	public static void i_closeSession() {
-		contract.deleteKapper(entity1.getUserId());
-		contract.deleteKapper(entity4.getUserId());
+		contract.deleteKapper(entity1);
+		contract.deleteKapper(entity4);
 		session.beginTransaction();
-		session.delete(entity1);
 		session.delete(entity3);
-		session.delete(entity4);
+		session.flush();
 		session.getTransaction().commit();
 		session.close();
 	}
