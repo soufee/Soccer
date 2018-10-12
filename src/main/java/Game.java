@@ -13,7 +13,7 @@ public class Game {
 
 	public static void main(String[] args) {
 		TreeSet<KapperInfo> set = new TreeSet<>();
-		try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+		try (Session session = HibernateSessionFactory.getSession()) {
 			Contract contract = new Contract(session);
 			Map<Users, KapperInfo> allInfo = contract.getAllInfo();
 			for (Map.Entry<Users, KapperInfo> entity : allInfo.entrySet()) {

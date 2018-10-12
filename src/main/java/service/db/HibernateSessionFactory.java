@@ -1,5 +1,7 @@
 package service.db;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -10,6 +12,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  */
 public class HibernateSessionFactory {
     private static SessionFactory sessionFactory = buildSessionFactory();
+    public static Session getSession(){
+        Session session;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException he){
+            session = sessionFactory.openSession();
+        }
+           return session;
+    }
+
     protected static SessionFactory buildSessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();

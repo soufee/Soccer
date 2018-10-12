@@ -33,7 +33,8 @@ public class ContractTest {
 
 	@BeforeClass
 	public static void initData() {
-		session = HibernateSessionFactory.getSessionFactory().openSession();
+		session = HibernateSessionFactory.getSession();
+
 		session.beginTransaction();
 		contract = new Contract(session);
 		entity1 = new Users();

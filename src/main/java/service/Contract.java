@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import service.db.HibernateSessionFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class Contract implements IContract {
 
 	public Contract() {
 		if (session == null) {
-			session = HibernateSessionFactory.getSessionFactory().openSession();
+			session = HibernateSessionFactory.getSession();
 		}
 	}
 
@@ -34,6 +35,7 @@ public class Contract implements IContract {
 	public KapperInfo initCapper(int user_id) {
 		Users user = session.load(Users.class, user_id);
 		KapperInfo kapper = null;
+		List l = new ArrayList();
 		if (user == null) {
 			System.out.println("Пользователь с идентификатором " + user_id + " не найден в системе");
 			return null;
@@ -44,12 +46,12 @@ public class Contract implements IContract {
 			session.beginTransaction();
 
 			try {
-				kapper = session.bySimpleNaturalId(KapperInfo.class).load(user_id);
+				l = session.createQuery("from Users where user_id = " + user_id).list();
 			} catch (Exception e) {
 				e.printStackTrace();
 				session.getTransaction().rollback();
 			}
-			if (kapper != null) {
+			if (l.size()!=0) {
 				System.out.println("Каппер с таким идентификатором уже прошел инициализацию");
 			} else {
 				kapper = new KapperInfo();

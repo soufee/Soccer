@@ -31,7 +31,7 @@ public class Roles implements Serializable {
     }
 
     public static Roles of(RoleTypes type) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Session session = HibernateSessionFactory.getSession();
         switch (type) {
             case ADMIN:
                 return session.load(Roles.class, 1);
