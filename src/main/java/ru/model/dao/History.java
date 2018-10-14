@@ -1,11 +1,9 @@
-package model.dao;
+package ru.model.dao;
 
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Created by Shoma on 27.09.2018.

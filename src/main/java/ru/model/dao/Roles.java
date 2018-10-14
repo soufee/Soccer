@@ -1,11 +1,8 @@
-package model.dao;
+package ru.model.dao;
 
 import lombok.*;
 import lombok.extern.log4j.Log4j;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NaturalId;
 import service.db.HibernateSessionFactory;
 
 import javax.persistence.*;

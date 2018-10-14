@@ -1,13 +1,12 @@
 package service;
 
 import lombok.extern.log4j.Log4j;
-import model.dao.KapperInfo;
-import model.dao.Users;
+import ru.model.dao.KapperInfo;
+import ru.model.dao.Users;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import service.db.HibernateSessionFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

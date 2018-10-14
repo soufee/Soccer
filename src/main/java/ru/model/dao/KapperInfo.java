@@ -1,4 +1,4 @@
-package model.dao;
+package ru.model.dao;
 
 import org.hibernate.annotations.NaturalId;
 import lombok.*;

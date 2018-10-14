@@ -1,7 +1,7 @@
-package model;
+package ru.model;
 
 /**
  * Created by Shoma on 29.09.2018.
  */
-public class BetEvent {
+public class EventResult {
 }

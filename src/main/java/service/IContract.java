@@ -1,7 +1,7 @@
 package service;
 
-import model.dao.KapperInfo;
-import model.dao.Users;
+import ru.model.dao.KapperInfo;
+import ru.model.dao.Users;
 
 import java.util.Map;
 

@@ -1,5 +1,5 @@
 import lombok.extern.log4j.Log4j;
-import model.dao.*;
+import ru.model.dao.*;
 import org.hibernate.Session;
 import service.Contract;
 import service.db.HibernateSessionFactory;

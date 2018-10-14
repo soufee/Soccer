@@ -1,4 +1,4 @@
-package model.dao;
+package ru.model.dao;
 
 import lombok.extern.log4j.Log4j;
 import org.hibernate.annotations.NaturalId;
@@ -10,9 +10,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Log4j
 @Data
