@@ -106,11 +106,11 @@
         <artifactId>hibernate-validator</artifactId>
         <version>6.0.12.Final</version>
     </dependency>
-    <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-jpa</artifactId>
-        <version>${spring.data}</version>
-    </dependency>
+    <!--<dependency>-->
+        <!--<groupId>org.springframework.data</groupId>-->
+        <!--<artifactId>spring-data-jpa</artifactId>-->
+        <!--<version>${spring.data}</version>-->
+    <!--</dependency>-->
 </dependencies>
 
 </project>

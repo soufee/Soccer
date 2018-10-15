@@ -1,5 +1,6 @@
 package config;
 
+import lombok.extern.log4j.Log4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,6 +11,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 /**
  * Created by Shoma on 27.09.2018.
  */
+@Log4j
 public class HibernateSessionFactory {
     private static SessionFactory sessionFactory = buildSessionFactory();
     public static Session getSession(){

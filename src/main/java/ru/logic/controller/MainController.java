@@ -1,5 +1,6 @@
 package ru.logic.controller;
 
+import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+//@Log4j
 @Controller
 public class MainController {
 
@@ -69,7 +71,15 @@ public class MainController {
 	}
 
 	private String getSource(String s) throws IOException {
-		File file = new File("WEB-INF/sources/" + s);
+		File dir = new File(".");
+        String[] files = dir.list();
+        if (dir.isDirectory() && files != null) {
+            for (int i = 0; i < files.length; i++) {
+                System.out.println(files[i]);
+            }
+        }
+
+		File file = new File(s);
 		FileInputStream stream = new FileInputStream(file);
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		StringBuilder sb = new StringBuilder();
