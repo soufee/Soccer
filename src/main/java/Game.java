@@ -2,7 +2,7 @@ import lombok.extern.log4j.Log4j;
 import model.dao.*;
 import org.hibernate.Session;
 import service.Contract;
-import service.db.HibernateSessionFactory;
+import config.HibernateSessionFactory;
 
 import java.util.Map;
 import java.util.TreeSet;

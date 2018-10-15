@@ -6,7 +6,7 @@ import model.dao.Users;
 import org.hibernate.Session;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
-import service.db.HibernateSessionFactory;
+import config.HibernateSessionFactory;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

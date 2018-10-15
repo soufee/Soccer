@@ -1,4 +1,4 @@
-package model;
+package model.dao;
 
 /**
  * Created by Shoma on 29.09.2018.

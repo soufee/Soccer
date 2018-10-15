@@ -27,6 +27,7 @@
 <br>
 
 ${userJSP}
+${contacts}
 
 
 

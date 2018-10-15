@@ -1,4 +1,4 @@
-package service.db;
+package config;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

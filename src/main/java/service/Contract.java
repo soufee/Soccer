@@ -5,7 +5,7 @@ import model.dao.KapperInfo;
 import model.dao.Users;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import service.db.HibernateSessionFactory;
+import config.HibernateSessionFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
